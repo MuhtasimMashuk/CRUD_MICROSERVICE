@@ -106,4 +106,21 @@ public class EmployeeController {
         log.info("Response returned for delete()");
         return responseDto;
     }
+
+    @PostMapping("/loop-insert/{number}")
+    public ResponseDto loopInsert(@RequestBody EmployeeDto employeeDto, @PathVariable int number){
+        log.info("Request received for loopInsert()");
+        ResponseDto responseDto = employeeService.loopInsert( employeeDto,number);
+
+        log.info("Response returned for loopInsert()");
+        return responseDto;
+    }
+
+    @GetMapping("/range")
+    public ResponseDto getAllBetweenRange(@RequestParam Long start, @RequestParam Long end) {
+        log.info("Request received for getAllBetweenRange()");
+        ResponseDto responseDto = employeeService.getAllBetweenRange(start,end);
+        log.info("Response returned for getAllBetweenRange()");
+        return responseDto;
+    }
 }

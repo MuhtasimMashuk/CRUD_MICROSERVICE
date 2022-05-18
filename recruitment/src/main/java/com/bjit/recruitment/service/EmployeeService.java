@@ -177,4 +177,41 @@ public class EmployeeService {
             return new ResponseDto(Response.ERROR, "Id is not valid", e);
         }
     }
+    public ResponseDto loopInsert(EmployeeDto employeeDto, int number) {
+
+        int i = 0;
+        while (i < number) {
+            Employee employee = new Employee();
+            employee.setName(employeeDto.getName() + "i");
+            employee.setFatherName(employeeDto.getFatherName() + i);
+            employee.setMotherName(employeeDto.getMotherName() + i);
+            employee.setName(employeeDto.getName() + i);
+            employee.setDob(employeeDto.getDob());
+            employee.setDoj(employeeDto.getDoj());
+            employee.setGender(employeeDto.getGender());
+            employeeRepo.save(employee);
+
+            i++;
+        }
+        return new ResponseDto(Response.SUCCESS, "Data Inserted using looping", number);
+    }
+
+    public ResponseDto getAllBetweenRange(Long start, Long end) {
+
+        log.info("getAllBetweenRange(int start, int end) executed in service");
+        try {
+            List<Employee> employees = employeeRepo.findByIdBetween(start,end);
+            List<EmployeeDto> employeeDtos = new ArrayList<>();
+
+            for (Employee emp : employees) {
+                EmployeeDto employeeDto = new EmployeeDto();
+                BeanUtils.copyProperties(emp, employeeDto);
+                employeeDtos.add(employeeDto);
+            }
+            return new ResponseDto(Response.SUCCESS, "List Retrieved", employeeDtos);
+        } catch (Exception e) {
+            log.error("getAllBetweenRange(int start, int end)");
+            return new ResponseDto(Response.ERROR, "ERROR OCCURRED", e);
+        }
+    }
 }
