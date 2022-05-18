@@ -6,18 +6,16 @@ spring:
   application:
     name: API-GATEWAY
   cloud:
-    gateway: #configuring gate way
+    gateway:
       routes:
-        - id: RECRUITMENT-SERVICE #using eureka service
+        - id: RECRUITMENT-SERVICE
           uri: lb://RECRUITMENT-SERVICE
           predicates:
             - Path=/recruitment/**
 
-  autoconfigure: #for spring cloud
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 
-eureka:  #for eureka, gateway is also a service, have to be registered in eureka server
+eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
